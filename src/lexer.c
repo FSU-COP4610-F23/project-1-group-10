@@ -3,14 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main()
+/*
+ int main()
 {
 	while (1) {
 		printf("> ");
-
-		/* input contains the whole command
-		 * tokens contains substrings from input split by spaces
-		 */
 
 		char *input = get_input();
 		printf("whole input: %s\n", input);
@@ -26,6 +23,7 @@ int main()
 
 	return 0;
 }
+*/
 
 char *get_input(void) {
 	char *buffer = NULL;

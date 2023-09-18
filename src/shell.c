@@ -22,7 +22,7 @@ int main()
        
         for(int i = 0; i < tokens->size; i++)
         {
-            if(tokens->items[i][0] == '$')
+            if(tokens->items[i][0] == '$' || tokens->items[i][0] == '~')
             {
                 char *envString =  envConvert(tokens->items[i]);
                 

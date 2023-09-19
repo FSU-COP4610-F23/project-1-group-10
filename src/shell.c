@@ -52,6 +52,7 @@ int main()
                     }
 
                     free(envString1);
+                    free(envString3);
                 }
                 else
                 {

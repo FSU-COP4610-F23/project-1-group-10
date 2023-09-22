@@ -11,7 +11,6 @@ int main()
 {
     char *input;
     tokenlist *tokens;
-    char** commPath;
 
     while(1)
     {
@@ -68,7 +67,7 @@ int main()
                 }                
             }
             // we will need to implement step 9 to check if the current item is an internal command before this is called
-            commPath[i] = pathSearch(tokens->items[i]);
+            tokens->items[i] = pathSearch(tokens->items[i]);
         }        
  
         for(int i = 0; i < tokens->size; i++)

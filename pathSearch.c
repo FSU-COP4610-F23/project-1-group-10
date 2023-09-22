@@ -20,8 +20,8 @@ char* pathSearch(char* item)
     }
 
 
-    char* directory;
-    char* proposedPath;
+    char* directory; // to hold portion of path between ":"s
+    char* proposedPath; // to hold the path being tested
     
     // DO NOT ALTER ORIGPATH; IT NOW POINTS TO $PATH GETENV RESULT
     char* origPath = getenv("PATH");
@@ -34,8 +34,6 @@ char* pathSearch(char* item)
 
     origPath = NULL;    // origPath no longer points to string value of $PATH, phew
 
-    // to hold portion of path between ":"s
-    directory = (char*)calloc(pathLength, sizeof(char));
     // set directory to the portion of path between its start to the first ":"
     directory = strtok(path, ":");
     // allocate memory to fit directory + / + command
@@ -54,14 +52,21 @@ char* pathSearch(char* item)
         strcat(proposedPath, "/");
         strcat(proposedPath, item);
         // return the current value of proposedPath if the command can be accessed for execution at that location
-        if (access(proposedPath, X_OK) == 0)
+        if (access(proposedPath, X_OK) == 0) {
+            // free dynamically allocated memory
+            free(item);
+            free(path);
             return(proposedPath);
+        }
         // replace directory with the next portion of path between ":"s
         directory = strtok(NULL, ":");
         i++;
     }
     // print error message and return nothing if the command was not found in any $PATH directory
     printf("command not found\n");
+    // free dynamically allocated memory
+    free(item);
+    free(path);
     return "";
 }
 

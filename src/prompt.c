@@ -3,9 +3,5 @@
 
 void prompt()
 {
-    char *user = getenv("USER");
-    char *mach = getenv("MACHINE");
-    char *pwd = getenv("PWD");
-
-    printf("%s@%s:%s>", user, mach, pwd);
+    printf("%s@%s:%s>", getenv("USER"), getenv("MACHINE"), getenv("PWD"));
 }

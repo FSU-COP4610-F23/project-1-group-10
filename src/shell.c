@@ -12,98 +12,21 @@ char *strdup(const char *s);
 char *pathSearch(char* item);
 void extcmd(tokenlist* itemlist);
 void pipeFunc(char ***listOfList, int cmdCtr);
+char ***listList(tokenlist* itemlist, int pipeCounter);
 
 void extcmd(tokenlist* itemlist){
-    
-    bool pipeExists = false; //if loop contains pipe
-    int pipeCounter = 0; //how many pipes does it contain (we only need the counter but I am still using pipeExist).
-    int commandCounter = 0; //how many commands   
 
-    for(int i = 0; i < itemlist->size; i++)
-    {   
-        if(itemlist->items[i][0] == '|')//check the token list for a pipe command
-        {
-            pipeExists = true; //true if  it does
+    int status;
+    pid_t pid = fork();
+    // printf("PID: %d\n", pid);
 
-            if(i != ((itemlist->size) - 1))
-            {
-                pipeCounter = pipeCounter + 1; //increase counter by one for every pipe if it isn't the final pipe           
-            }
-        }
+    if (pid == 0) {
+         execv(itemlist->items[0], itemlist->items);
     }
-
-    if(pipeExists != true) //if pipe doesn't exist, run Rod's original function
-    {
-        int status;
-        pid_t pid = fork();
-        // printf("PID: %d\n", pid);
-
-        if (pid == 0) {
-            execv(itemlist->items[0], itemlist->items);
-        }
-        else {
-                waitpid(pid, &status, 0);
-            //    printf("Child Complete\n");
-        }
-    }
-
-    if(pipeExists == true) //we need to separate every single command and argument from the tokens.
-    {
-        commandCounter = pipeCounter + 1;
-        char ***listOfToList = malloc((commandCounter) * sizeof(char**)); //allocate space for the commands list
-        int listListIdx = 0; //which command are we writing to
-        int tokenEndIdx = 0; //what token on the original list are we on
-            
-        for(int i = 0; i < itemlist->size; i++)
-        {
-            if(itemlist->items[i][0] == '|') //if there is a pipe
-            {
-                int sizeOfTokens = i - tokenEndIdx; //the amount of tokens between the current pipe and the first token of the cmd
-                listOfToList[listListIdx] = malloc((sizeOfTokens + 1) * sizeof(char*)); //allocate space to write cmd and arg to the command
-
-                for(int j = 0; j < sizeOfTokens; j++)
-                {
-                    listOfToList[listListIdx][j] = itemlist->items[tokenEndIdx + j]; //write to the command, starting from the first token
-                }
-                listOfToList[listListIdx][sizeOfTokens] = NULL; //make sure to make the last token on the command null
-                
-                listListIdx = listListIdx + 1; //move to the next command
-                tokenEndIdx = i + 1; //jump the beginning of the new command to the location at i + 1 to skip the pipe '|' char
-            }
-            else if(i == (itemlist->size - 1)) //the same as above, only difference is to account for the last token
-            {
-                int sizeOfTokens = i - tokenEndIdx + 1; //the amount of tokens between first cmd token (last pipe + 1) and the last token
-                listOfToList[listListIdx] = malloc((sizeOfTokens + 1) * sizeof(char*));
-
-                for(int j = 0; j < sizeOfTokens; j++)
-                {
-                    listOfToList[listListIdx][j] = itemlist->items[tokenEndIdx + j];
-                }
-                listOfToList[listListIdx][sizeOfTokens] = NULL;
-
-                listListIdx = listListIdx + 1;    
-                tokenEndIdx = i + 1;
-            }    
-        }
-
-        /*for(int i = 0; i < listListIdx; i++) //check if commands are coming out correctly
-        {
-           printf("Command %d: \n", i+1);
-           for(int j = 0; listOfToList[i][j] != NULL; j++)
-           {
-              printf("\t%s\n", listOfToList[i][j]);
-           }
-        }*/ //I have commented out this test code, if you want to check that commands are being set correctly, uncomment this
-
-        pipeFunc(listOfToList, commandCounter); //use the piping function on the list of commands
-
-        for(int i = 0; i < commandCounter; i++) //free the allocated mem
-        {
-            free(listOfToList[i]);
-        }
-        
-        free(listOfToList); //free
-    }
+    else {
+         waitpid(pid, &status, 0);
+        // printf("Child Complete\n");
+    }    
 }
 
 
@@ -115,12 +38,16 @@ int main()
 
     while(1)
     {
+        bool pipeExists = false; //if loop contains pipe
+        int pipeCounter = 0; //how many pipes does it contain (we only need the counter but I am still using pipeExist).
+        int commandCounter = 0; //how many commands
+
         pipeIndex = -1;
         prompt();
         
         input = get_input();
         //printf("The input is: %s\n", input); //I have commented input out since it seems unnecessary at this point. Uncomment if you need.                                               
-
+        
         tokens = get_tokens(input);
        
         for(int i = 0; i < tokens->size; i++)
@@ -189,8 +116,39 @@ int main()
             //tokens->items[i] = pathSearch(tokens->items[i]);
         }  
 
-        extcmd(tokens);
+        for(int i = 0; i < tokens->size; i++) //has a pipe checker
+        {   
+            if(tokens->items[i][0] == '|')//check the token list for a pipe command
+            {
+                pipeExists = true; //true if  it does
+
+                if(i != ((tokens->size) - 1))
+                {
+                    pipeCounter = pipeCounter + 1; //increase counter by one for every pipe if it isn't the final pipe           
+                }
+            }
+        }
         
+        if(pipeExists != true) //if pipes do not exist, run normally
+        {
+            extcmd(tokens);
+        }
+
+        if(pipeExists == true) //if pipes exist, use list of commands function and use piping function
+        {
+            commandCounter = pipeCounter + 1; //get command counter
+
+            char ***listOfCommands = listList(tokens, pipeCounter); //get list of commands
+            pipeFunc(listOfCommands, commandCounter); //do piping for the commands
+
+            for(int i = 0; i < commandCounter; i++)
+            {
+                free(listOfCommands[i]); //free the used memory
+            }   
+    
+            free(listOfCommands); //free
+        }
+
         /*for(int i = 0; i < tokens->size; i++)
         {
             printf("token %d: (%s)\n", i, tokens->items[i]);

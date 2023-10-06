@@ -23,7 +23,7 @@ void bgProcessing(tokenlist* itemlist, struct bgPid *BG){
             commandCounter = pipeCounter + 1; //get command counter
 
             char ***listOfCommands = listList(tokens, pipeCounter); //get list of commands
-            pipeFunc(listOfCommands, commandCounter, false); //do piping for the commands
+            pipeFunc(listOfCommands, commandCounter, true); //do piping for the commands
 
             for(int i = 0; i < commandCounter; i++)
             {

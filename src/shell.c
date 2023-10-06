@@ -31,7 +31,34 @@ void extcmd(tokenlist* itemlist){
     pid_t pid = fork();
     // printf("PID: %d\n", pid);
 
+    for(int i = 0; i < tokens->size; i++) //has a pipe checker
+        {   
+            if(tokens->items[i][0] == '|')//check the token list for a pipe command
+            {
+                pipeExists = true; //true if  it does
+
+                if(i != ((tokens->size) - 1))
+                {
+                    pipeCounter = pipeCounter + 1; //increase counter by one for every pipe if it isn't the final pipe           
+                }
+            }
+        }
+        
     if (pid == 0) {
+        if(pipeExists == true) //if pipes exist, use list of commands function and use piping function
+        {
+            commandCounter = pipeCounter + 1; //get command counter
+
+            char ***listOfCommands = listList(tokens, pipeCounter); //get list of commands
+            pipeFunc(listOfCommands, commandCounter, false); //do piping for the commands
+
+            for(int i = 0; i < commandCounter; i++)
+            {
+                free(listOfCommands[i]); //free the used memory
+            }   
+    
+            free(listOfCommands); //free
+        }
         execv(itemlist->items[0], itemlist->items);
     }
     else {

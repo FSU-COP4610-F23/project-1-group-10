@@ -5,6 +5,18 @@ void bgProcessing(tokenlist* itemlist, struct bgPid *BG){
     int status;
     pid_t pid = fork();
 
+    for(int i = 0; i < tokens->size; i++) //has a pipe checker
+    {   
+        if(tokens->items[i][0] == '|')//check the token list for a pipe command
+        {
+            pipeExists = true; //true if  it does
+
+            if(i != ((tokens->size) - 1))
+            {
+                pipeCounter = pipeCounter + 1; //increase counter by one for every pipe if it isn't the final pipe           
+            }
+        }
+    }
     if (pid == 0) {
         printf("[%d][%d]", jobNum, pid);
         execv(itemlist->items[0], itemlist->items);

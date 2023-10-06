@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include "stdbool.h"
 
 //Global variable for each shell process
 int jobNum = 1;
@@ -19,6 +20,8 @@ char *envConvert(char *item);
 char *strdup(const char *s);
 char *pathSearch(char* item);
 void extcmd(tokenlist* itemlist);
+void pipeFunc(char ***listOfList, int cmdCtr);
+char ***listList(tokenlist* itemlist, int pipeCounter);
 void bgProcessing(tokenlist* itemlist, struct bgPid *BG);
 void checkBG(struct bgPid *BG, int size);
 
@@ -47,6 +50,9 @@ int main()
 
     while(1)
     {
+        bool pipeExists = false; //if loop contains pipe
+        int pipeCounter = 0; //how many pipes does it contain (we only need the counter but I am still using pipeExist).
+        int commandCounter = 0; //how many commands
         pipeIndex = -1;
         prompt();
         

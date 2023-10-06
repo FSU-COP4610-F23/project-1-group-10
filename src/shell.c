@@ -11,6 +11,7 @@ char *envConvert(char *item);
 char *strdup(const char *s);
 char *pathSearch(char* item);
 void extcmd(tokenlist* itemlist);
+void ioRedirection(tokenlist*);
 void pipeFunc(char ***listOfList, int cmdCtr);
 char ***listList(tokenlist* itemlist, int pipeCounter);
 
@@ -21,10 +22,11 @@ void extcmd(tokenlist* itemlist){
     // printf("PID: %d\n", pid);
 
     if (pid == 0) {
-         execv(itemlist->items[0], itemlist->items);
+        ioRedirection(itemlist);
+        execv(itemlist->items[0], itemlist->items);
     }
     else {
-         waitpid(pid, &status, 0);
+        waitpid(pid, &status, 0);
         // printf("Child Complete\n");
     }    
 }

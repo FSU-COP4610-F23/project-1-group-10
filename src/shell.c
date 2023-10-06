@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include "stdbool.h"
 
+
 //Global variable for each shell process
 int jobNum = 1;
 struct bgPid{

@@ -21,23 +21,27 @@ char *envConvert(char *item);
 char *strdup(const char *s);
 char *pathSearch(char* item);
 void extcmd(tokenlist* itemlist);
-void pipeFunc(char ***listOfList, int cmdCtr);
+void ioRedirection(tokenlist*);
+void pipeFunc(char ***listOfList, int cmdCtr, bool bgp);
 char ***listList(tokenlist* itemlist, int pipeCounter);
 void bgProcessing(tokenlist* itemlist, struct bgPid *BG);
 void checkBG(struct bgPid *BG, int size);
 
 void extcmd(tokenlist* itemlist){
     int status;
+    int pipeCounter = 0;
+    int commandCounter = 0;
+    bool pipeExists = false;
     pid_t pid = fork();
     // printf("PID: %d\n", pid);
 
-    for(int i = 0; i < tokens->size; i++) //has a pipe checker
+    for(int i = 0; i < itemlist->size; i++) //has a pipe checker
         {   
-            if(tokens->items[i][0] == '|')//check the token list for a pipe command
+            if(itemlist->items[i][0] == '|')//check the token list for a pipe command
             {
                 pipeExists = true; //true if  it does
 
-                if(i != ((tokens->size) - 1))
+                if(i != ((itemlist->size) - 1))
                 {
                     pipeCounter = pipeCounter + 1; //increase counter by one for every pipe if it isn't the final pipe           
                 }
@@ -45,11 +49,13 @@ void extcmd(tokenlist* itemlist){
         }
         
     if (pid == 0) {
+        ioRedirection(itemlist);
+
         if(pipeExists == true) //if pipes exist, use list of commands function and use piping function
         {
             commandCounter = pipeCounter + 1; //get command counter
 
-            char ***listOfCommands = listList(tokens, pipeCounter); //get list of commands
+            char ***listOfCommands = listList(itemlist, pipeCounter); //get list of commands
             pipeFunc(listOfCommands, commandCounter, false); //do piping for the commands
 
             for(int i = 0; i < commandCounter; i++)
@@ -59,7 +65,10 @@ void extcmd(tokenlist* itemlist){
     
             free(listOfCommands); //free
         }
-        execv(itemlist->items[0], itemlist->items);
+        else
+        {
+            execv(itemlist->items[0], itemlist->items);
+        }
     }
     else {
         waitpid(pid, &status, 0);

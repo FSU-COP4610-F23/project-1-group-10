@@ -45,19 +45,15 @@ char ***listList(tokenlist* itemlist, int pipeCounter)
         }    
     }
 
-   /*for(int i = 0; i < listListIdx; i++) //check if commands are coming
-    * out correctly
-    *         {
-    *                    printf("Command %d: \n", i+1);
-    *                               for(int j = 0; listOfToList[i][j] != NULL; j++)
-    *                                          {
-    *                                                        printf("\t%s\n",
-    *                                                        listOfToList[i][j]);
-    *                                                                   }
-    *                                                                           }*/
-    //I have commented out this test code, if you want to check that commands are
-    //being set correctly, uncomment this
-    //
+    for(int i = 0; i < listListIdx; i++)
+    {
+        printf("Command %d: \n", i+1);
+        for(int j = 0; listOfToList[i][j] != NULL; j++)
+        {
+            printf("\t%s\n",
+            listOfToList[i][j]);
+        }
+    }
 
     return listOfToList;
 }

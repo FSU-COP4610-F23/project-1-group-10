@@ -5,13 +5,22 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
+//Global variable for each shell process
+int jobNum = 1;
+struct bgPid{
+    pid_t pid;
+    int jobNum;
+    tokenlist* itemlist;
+    bool isValid;
+};
 
 void prompt();
 char *envConvert(char *item);
 char *strdup(const char *s);
 char *pathSearch(char* item);
 void extcmd(tokenlist* itemlist);
-
+void bgProcessing(tokenlist* itemlist, struct bgPid *BG);
+void checkBG(struct bgPid *BG, int size);
 
 void extcmd(tokenlist* itemlist){
     int status;
@@ -22,17 +31,19 @@ void extcmd(tokenlist* itemlist){
         execv(itemlist->items[0], itemlist->items);
     }
     else {
-            waitpid(pid, &status, 0);
+        waitpid(pid, &status, 0);
         //    printf("Child Complete\n");
     }
 }
-
 
 int main()
 {
     char *input;
     tokenlist *tokens;
     int pipeIndex;
+    struct bgPid bg[11];
+    for(int i = 0; i<11; i++)
+        bg[i].isValid = false;
 
     while(1)
     {
@@ -41,6 +52,8 @@ int main()
         
         input = get_input();
         printf("The input is: %s\n", input);
+
+        checkBG(bg, 11);
 
         tokens = get_tokens(input);
        
@@ -56,7 +69,7 @@ int main()
                     tokens->items[i] = strdup(envString);
                 }
             }
-            else if(tokens->items[i] == "|") pipeIndex = i;
+            else if(tokens->items[i][0] == '|') pipeIndex = i;
             else if(tokens->items[i][0] == '~')
             {
                 if(tokens->items[i][1] == '/')
@@ -102,15 +115,22 @@ int main()
             //tokens->items[i] = pathSearch(tokens->items[i]);
         }  
 
-        extcmd(tokens);
-        
-        for(int i = 0; i < tokens->size; i++)
-        {
-            printf("token %d: (%s)\n", i, tokens->items[i]);
+        printf("Show the token size here: %d\n", tokens->size);
+        if(tokens->size > 0){
+            if(tokens->items[(tokens->size)-1][0] == '&'){
+                tokens->items[(tokens->size)-1] = NULL;
+                printf("Going to the background\n");
+                bgProcessing(tokens, bg);
+            }
+            else extcmd(tokens);
+            
+            for(int i = 0; i < tokens->size; i++)
+                printf("token %d: (%s)\n", i, tokens->items[i]);
+
+            free_tokens(tokens);    
         }
 
         //free(input);
-        //free_tokens(tokens);    
     }
 
     return 0;

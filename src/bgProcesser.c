@@ -18,6 +18,20 @@ void bgProcessing(tokenlist* itemlist, struct bgPid *BG){
         }
     }
     if (pid == 0) {
+        if(pipeExists == true) //if pipes exist, use list of commands function and use piping function
+        {
+            commandCounter = pipeCounter + 1; //get command counter
+
+            char ***listOfCommands = listList(tokens, pipeCounter); //get list of commands
+            pipeFunc(listOfCommands, commandCounter, false); //do piping for the commands
+
+            for(int i = 0; i < commandCounter; i++)
+            {
+                free(listOfCommands[i]); //free the used memory
+            }   
+    
+            free(listOfCommands); //free
+        }
         printf("[%d][%d]", jobNum, pid);
         execv(itemlist->items[0], itemlist->items);
         printf("there\n");

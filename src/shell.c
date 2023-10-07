@@ -170,10 +170,10 @@ int main()
             for(int i = 0; i < tokens->size; i++)
                 printf("token %d: (%s)\n", i, tokens->items[i]);
 
-            free_tokens(tokens);    
+//            free_tokens(tokens);    
         }
 
-        //free(input);
+        free(input);
     }
 
     return 0;

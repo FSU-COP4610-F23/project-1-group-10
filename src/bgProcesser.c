@@ -15,9 +15,10 @@ void bgProcessing(tokenlist* itemlist, struct bgPid *BG){
     pid_t pid = fork();
 
     for(int i = 0; i < itemlist->size; i++) //has a pipe checker
-    {   
-        if(itemlist->items[i][0] == '|')//check the token list for a pipe command
-        {
+    {  
+        //Seg fault from if condition 
+        if((itemlist->items[i] != NULL) && (itemlist->items[i][0] == '|')){
+            //check the token list for a pipe command
             pipeExists = true; //true if  it does
 
             if(i != ((itemlist->size) - 1))
@@ -30,13 +31,16 @@ void bgProcessing(tokenlist* itemlist, struct bgPid *BG){
     if (pid == 0) {
         ioRedirection(itemlist);
 
-        if(pipeExists == true) //if pipes exist, use list of commands function and use piping function
+        //if pipes exist, use listOfCommands function and use piping function
+        if(pipeExists == true) 
         {
             commandCounter = pipeCounter + 1; //get command counter
 
             char ***listOfCommands = listList(itemlist, pipeCounter); //get list of commands
             printf("[%d][%d]", jobNum, pid);
-            pipeFunc(listOfCommands, commandCounter, true); //do piping for the commands
+            //do piping for the commands
+            //(not running in the background as I expect it to do here)
+            pipeFunc(listOfCommands, commandCounter, true); 
 
             for(int i = 0; i < commandCounter; i++)
             {
@@ -68,26 +72,12 @@ void checkBG(struct bgPid *BG, int size){
     for(int i = 1; i < size; i++){
         waitpid(BG[i].pid, &status, WNOHANG);
         if((WIFEXITED(status) == true) && (BG[i].isValid == true)){
-            printf("[%d] + done [", jobNum);
-            for(int j = 0; j < ((BG[jobNum].itemlist->size) - 1); j++)
-               printf("%s ", BG[jobNum].itemlist->items[j]);
-            printf("]\n");
+            printf("[%d] + done [look up above]\n", jobNum);
+            /*for(int j = 0; j < (BG[jobNum].itemlist->size); j++)
+                if(BG[jobNum].itemlist->items[j] != NULL){
+                    printf("%s ", BG[jobNum].itemlist->items[j]);
+                }
+            printf("]\n");*/
         }
     }
 }
-
-/*
-if(tokens->size > 0){
-    if(tokens->items[(tokens->size)-1][0] == '&'){
-        tokens->items[(tokens->size)-1] = NULL;
-        printf("Going to the background\n");
-        bgProcessing(tokens, bg);
-    }
-    else extcmd(tokens);
-    
-    for(int i = 0; i < tokens->size; i++)
-        printf("token %d: (%s)\n", i, tokens->items[i]);
-
-    free_tokens(tokens);    
-}
-*/

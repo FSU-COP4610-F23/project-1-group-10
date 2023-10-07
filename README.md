@@ -3,17 +3,17 @@
 [Description]
 
 ## Group Members
-- **John Doe**: jd19@fsu.edu
-- **Jane Smith**: js19@fsu.edu
-- **Alex Brown**: ab19@fsu.edu
+- **Roderick Shaw**: rks21b@fsu.edu
+- **Fernando Parra**: fap20g@fsu.edu
+- **Sofia Sanchez**: srs20h@fsu.edu
 ## Division of Labor
 
 ### Part 1: Prompt
-- **Responsibilities**: [Description]
-- **Assigned to**: John Doe
+- **Responsibilities**: [Print the user, machine, and path info from their envirnoment.]
+- **Assigned to**: Roderick Shaw
 
 ### Part 2: Environment Variables
-- **Responsibilities**: [Description]
+- **Responsibilities**: []
 - **Assigned to**: Jane Smith
 
 ### Part 3: Tilde Expansion

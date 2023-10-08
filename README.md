@@ -107,6 +107,7 @@ shell/
 │ |── shell.c
 │ |── bgProcessor.c
 │ |── envirVar.c
+│ |── mytimeout.c
 │ |── ioRedirection.c
 │ |── lexer.c
 │ |── listOfCommands.c
@@ -143,12 +144,11 @@ before.
 ## Bugs
 - **Bug 1**: Printing out the command line gives a segmentation fault.
 - **Bug 2**: Piping doesn't seem to be going into the background.
-- **Bug 3**: This is bug 3.
+- **Bug 3**: Visual prompt bug with cd. It works, but it doesn't reflect that in prompt.
 
 ## Extra Credit
 - **Extra Credit 1**: [Support unlimited number of pipes]
-- **Extra Credit 2**: [Extra Credit Option]
-- **Extra Credit 3**: [Extra Credit Option]
 
 ## Considerations
-[Description]
+[Tilde expansion, external command execution, and internal commands are 
+inside shell.c because they were too small for another file.]

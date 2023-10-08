@@ -5,10 +5,9 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include "stdbool.h"
+//#include "bgProcessor.h"
 
-
-
-void pipeFunc(char ***listOfList, int cmdCtr) //take in the list of cmds and cmd counter
+void pipeFunc(char ***listOfList, int cmdCtr, bool bgp) //take in the list of cmds and cmd counter
 {
     int fileDescriptor[2]; //file descriptor
     int prev = -1; //store fileDescriptor[0] from the last pipe
@@ -91,8 +90,18 @@ void pipeFunc(char ***listOfList, int cmdCtr) //take in the list of cmds and cmd
         }
     }
 
-    for(int i = 0; i < cmdCtr; i++)
-    {
-        waitpid(pids[i], &status, 0); //waitpid for child process
+    if(bgp == true){
+        for(int i = 0; i < cmdCtr; i++){
+            waitpid(pids[i], &status, WNOHANG); //waitpid for child process
+//            if(i == (cmdCtr-1)){
+//                BG[jobNum].pid = pids[i];
+//            }
+        }
     }
+    else{
+        for(int i = 0; i < cmdCtr; i++){
+            waitpid(pids[i], &status, 0); //waitpid for child process
+        }
+    }
+
 }

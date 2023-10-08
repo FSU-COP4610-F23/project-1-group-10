@@ -38,15 +38,17 @@ char* pathSearch(char* item)
     directory = strtok(path, ":");
     // allocate memory to fit directory + / + command
     //proposedPath = (char*)calloc(strlen(directory) + sizeof(char) + strlen(item), sizeof(char));
-    proposedPath = (char*)calloc(strlen(directory) + strlen(item) + 2, sizeof(char)); //small changes with arrows are here to fix a mem leak, revert if doesnt fix mem leak <------ (IT FIXED IT!!)
+    proposedPath = (char*)calloc(strlen(directory) + strlen(item) + 2, sizeof(char)); 
+    //small changes with arrows are here to fix a mem leak
     int i = 0;
     // as long as directory continues to contain a portion of path,
     while(directory != NULL) {
         //change the size of proposedPath to fit the new directory + / + command,
         
-        //proposedPath = (char*)realloc(proposedPath, (strlen(directory) + sizeof(char) + strlen(item)) * sizeof(char));
-        char* newProposedPath = realloc(proposedPath, strlen(directory) + strlen(item) + 2); //change here <---
-        proposedPath = newProposedPath; //<----
+        //proposedPath = (char*)realloc(proposedPath, (strlen(directory)
+        // + sizeof(char) + strlen(item)) * sizeof(char));
+        char* newProposedPath = realloc(proposedPath, strlen(directory) + strlen(item) + 2); 
+        proposedPath = newProposedPath; 
 
         //free(newProposedPath); //<------
 
@@ -58,7 +60,8 @@ char* pathSearch(char* item)
         // append a "/" + the command to that
         strcat(proposedPath, "/");
         strcat(proposedPath, item);
-        // return the current value of proposedPath if the command can be accessed for execution at that location
+        // return the current value of proposedPath if the command can be accessed
+        // for execution at that location
         if (access(proposedPath, X_OK) == 0) {
             // free dynamically allocated memory
             free(item);
@@ -70,7 +73,8 @@ char* pathSearch(char* item)
         i++;
 
     }
-    // print error message and return nothing if the command was not found in any $PATH directory
+    // print error message and return nothing if the command was not found in
+    // any $PATH directory
     printf("Command [%s] not found\n", item); //changed error handling
     // free dynamically allocated memory
     free(path);

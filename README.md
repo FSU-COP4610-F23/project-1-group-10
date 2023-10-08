@@ -1,6 +1,7 @@
 # Shell
 
-[Description]
+[Our shell gives the ability to view a user's shell info, execute simple commands,
+check if errors exist in commands, and run commands concurrently in the background. ]
 
 ## Group Members
 - **Roderick Shaw**: rks21b@fsu.edu
@@ -8,60 +9,114 @@
 - **Sofia Sanchez**: srs20h@fsu.edu
 ## Division of Labor
 
+## BEFORE
 ### Part 1: Prompt
 - **Responsibilities**: [Print the user, machine, and path info from their envirnoment.]
 - **Assigned to**: Roderick Shaw
 
 ### Part 2: Environment Variables
-- **Responsibilities**: []
-- **Assigned to**: Jane Smith
+- **Responsibilities**: [Parse all environment variables appropriately]
+- **Assigned to**: Fernando Parra, Roderick Shaw, Sofia Sanchez
 
 ### Part 3: Tilde Expansion
-- **Responsibilities**: [Description]
-- **Assigned to**: Alex Brown
+- **Responsibilities**: [Parse ~ as a home environment variable]
+- **Assigned to**: Fernando Parra, Roderick Shaw, Sofia Sanchez
 
 ### Part 4: $PATH Search
-- **Responsibilities**: [Description]
-- **Assigned to**: Alex Brown, Jane Smith
+- **Responsibilities**: [Find proper paths for each command]
+- **Assigned to**: Fernando Parra, Roderick Shaw, Sofia Sanchez
 
 ### Part 5: External Command Execution
-- **Responsibilities**: [Description]
-- **Assigned to**: Alex Brown, Jane Smith
+- **Responsibilities**: [Execute each command by forking them]
+- **Assigned to**: Fernando Parra, Roderick Shaw, Sofia Sanchez
 
 ### Part 6: I/O Redirection
-- **Responsibilities**: [Description]
-- **Assigned to**: Jane Smith
+- **Responsibilities**: [Allow execution functionally with files as input and output]
+- **Assigned to**: Fernando Parra, Roderick Shaw, Sofia Sanchez
 
 ### Part 7: Piping
-- **Responsibilities**: [Description]
-- **Assigned to**: John Doe
+- **Responsibilities**: [Allow piping execution]
+- **Assigned to**: Fernando Parra, Roderick Shaw, Sofia Sanchez
 
 ### Part 8: Background Processing
-- **Responsibilities**: [Description]
-- **Assigned to**: Alex Brown, John Doe
+- **Responsibilities**: [Let commands run concurrently by executing commands w/ '&' in the background]
+- **Assigned to**: Fernando Parra, Roderick Shaw, Sofia Sanchez
 
 ### Part 9: Internal Command Execution
-- **Responsibilities**: [Description]
-- **Assigned to**: Alex Brown
+- **Responsibilities**: [Implement 3 commands: exit, cd PATH, and jobs]
+- **Assigned to**: Fernando Parra, Roderick Shaw, Sofia Sanchez
 
 ### Part 10: External Timeout Executable
-- **Responsibilities**: [Description]
-- **Assigned to**: Alex Brown, Jane Smith
+- **Responsibilities**: [Implement mytimeout command]
+- **Assigned to**: Fernando Parra, Roderick Shaw, Sofia Sanchez
 
 ### Extra Credit
-- **Responsibilities**: [Description]
-- **Assigned to**: Alex Brown
+- **Responsibilities**: [Optional code if we have time to implement them]
+- **Assigned to**: Nobody
+
+## AFTER
+### Part 1: Prompt
+- **Responsibilities**: [Print the user, machine, and path info from their envirnoment.]
+- **Assigned to**: Roderick Shaw
+
+### Part 2: Environment Variables
+- **Responsibilities**: [Parse all environment variables appropriately]
+- **Assigned to**: Fernando Parra
+
+### Part 3: Tilde Expansion
+- **Responsibilities**: [Parse ~ as a home environment variable]
+- **Assigned to**: Fernando Parra, Roderick Shaw
+
+### Part 4: $PATH Search
+- **Responsibilities**: [Find proper paths for each command]
+- **Assigned to**: Sofia Sanchez
+
+### Part 5: External Command Execution
+- **Responsibilities**: [Execute each command by forking them]
+- **Assigned to**: Roderick Shaw
+
+### Part 6: I/O Redirection
+- **Responsibilities**: [Allow execution functionally with files as input and output]
+- **Assigned to**: Sofia Sanchez
+
+### Part 7: Piping
+- **Responsibilities**: [Allow piping execution]
+- **Assigned to**: Fernando Parra
+
+### Part 8: Background Processing
+- **Responsibilities**: [Let commands run concurrently by executing commands w/ '&' in the background]
+- **Assigned to**: Roderick Shaw
+
+### Part 9: Internal Command Execution
+- **Responsibilities**: [Implement 3 commands: exit, cd PATH, and jobs]
+- **Assigned to**: 
+
+### Part 10: External Timeout Executable
+- **Responsibilities**: [Implement mytimeout command]
+- **Assigned to**: Sofia Sanchez
+
+### Extra Credit
+- **Responsibilities**: [Optional code if we have time to implement them]
+- **Assigned to**: Fernando Parra
 
 ## File Listing
 ```
 shell/
 │
 ├── src/
-│ ├── main.c
-│ └── shell.c
+│ |── shell.c
+│ |── bgProcessor.c
+│ |── envirVar.c
+│ |── ioRedirection.c
+│ |── lexer.c
+│ |── listOfCommands.c
+│ |── pathSearch.c
+│ |── piping.c
+│ └── prompt.c
 │
 ├── include/
-│ └── shell.h
+│ |── lexer.h
+| └── bgProcessor.h
 │
 ├── README.md
 └── Makefile
@@ -69,28 +124,29 @@ shell/
 ## How to Compile & Execute
 
 ### Requirements
-- **Compiler**: e.g., `gcc` for C/C++, `rustc` for Rust.
-- **Dependencies**: List any libraries or frameworks necessary (rust only).
+- **Compiler**: gcc -std=c99 nameOfFile -o whatYouWantTheExecutableToBeNamed
+- **Dependencies**: None needed to be downloaded
 
 ### Compilation
-For a C/C++ example:
 ```bash
 make
 ```
-This will build the executable in ...
+This will build the executable alongside the makefile and other folders 
+in this directory. It will also create the bin and obj folders in the same
+directory.
 ### Execution
 ```bash
 make run
 ```
-This will run the program ...
-
+This will run the program and start off with a slightly different prompt than
+before. 
 ## Bugs
-- **Bug 1**: This is bug 1.
-- **Bug 2**: This is bug 2.
+- **Bug 1**: Printing out the command line gives a segmentation fault.
+- **Bug 2**: Piping doesn't seem to be going into the background.
 - **Bug 3**: This is bug 3.
 
 ## Extra Credit
-- **Extra Credit 1**: [Extra Credit Option]
+- **Extra Credit 1**: [Support unlimited number of pipes]
 - **Extra Credit 2**: [Extra Credit Option]
 - **Extra Credit 3**: [Extra Credit Option]
 

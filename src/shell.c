@@ -60,7 +60,7 @@ void exitFunc(struct bgPid *bg, int size)
         {
             waitpid(bg[i].pid, NULL, 0);
         }
-    }
+    } //check if active
 
     for(int i = 0; i < 3; i++)
     {
@@ -68,7 +68,7 @@ void exitFunc(struct bgPid *bg, int size)
         {
             printf("%s\n", history[i]);
         }
-    }
+    } //print last 3
 
     exit(0);
 }
@@ -77,27 +77,25 @@ void cdFunc(tokenlist *tokens)
 {
     if(tokens->size > 2)
     {
-        printf("There is more than one argument.");
+        printf("\nThere is more than one argument.\n");
         return;
-    }
+    }//more than one arg
     
     char *newPath;
 
     if(tokens->size == 1)
     {
         newPath = getenv("HOME");
-    }
+    } //if just cd, go home
     else
     {
         newPath = tokens->items[1];
-    }
+    }//if more than just cd, newPath is second item
 
-    if(chdir(newPath) != 0)
+    if(chdir(newPath) != 0) //try to change dir
     {
-        printf("\nThis is not a path!");
+        printf("\nThis is not a path!\n");
     }
-
-    //printf("\n%s", getcwd(pathSearch(newPath), sizeof(char)));
 }   
 
 void jobsFunc(struct bgPid *bg, int size)
@@ -111,11 +109,17 @@ void jobsFunc(struct bgPid *bg, int size)
             printf("[%d]+ %d %s\n", bg[i].jobNum + 1, bg[i].pid, bg[i].itemlist->items[0]);
             jobsExist = true;
         }
+        //check if there are jobs
+        
 
-        if(!jobsExist)
+        /*if(!jobsExist)
         {
             printf("No active background processes.\n");
-        }
+        }*/
+    }
+    if(jobsExist == false)
+    {
+        printf("\nNo active background processes.\n");
     }
 }
 
@@ -172,6 +176,7 @@ void extcmd(tokenlist* itemlist){
 
 int main()
 {
+    bool isCD = false;
     char *input;
     tokenlist *tokens;
     bool intCommand = false;
@@ -179,6 +184,7 @@ int main()
     struct bgPid bg[11];
     for(int i = 0; i<11; i++)
         bg[i].isValid = false;
+    
 
     while(1)
     {
@@ -198,16 +204,20 @@ int main()
 
         if(strcmp(tokens->items[0], "exit") == 0)
         {
+            //do exit
             intCommand = true;
             exitFunc(bg, 11);
         }
         else if(strcmp(tokens->items[0], "cd") == 0)
         {
+            //check for cd
             intCommand = true;
-            cdFunc(tokens);
+            isCD = true;
+            //cdFunc(tokens);
         }
         else if(strcmp(tokens->items[0], "jobs") == 0)
         {
+            //check for jobs
             intCommand = true;
             jobsFunc(bg, 11);
         }
@@ -218,33 +228,36 @@ int main()
             if(tokens->items[i][0] == '$')
             {
                 char *envString =  envConvert(tokens->items[i]);
-                
+                //use env convert to get env var
                 if(envString)
                 {
                     free(tokens->items[i]);
                     tokens->items[i] = strdup(envString);
-                }
+                } //make space and dup
             }
             else if(tokens->items[i][0] == '|') pipeIndex = i;
+            //check if has pipes
             else if(tokens->items[i][0] == '~')
             {
+            //check if tilde, and if it has backslash
                 if(tokens->items[i][1] == '/')
                 {
                     char *envString = getenv("HOME");
+                    //get home
                     char *envString1 = strdup(envString); 
                     char *envString2 = ((tokens->items[i]) + 1);
-                    
+                    //remove ~
                     size_t length = strlen(envString1) + strlen(envString2) + 1;
-                    
+                    //make space
                     char *envString3 = (char *) (malloc(length));
                     strcpy(envString3, envString1);
                     char *newString = strcat(envString3, envString2);
-
+                    //join together
                     if(newString)
                     {
                         tokens->items[i] = strdup(newString);
                     }
-
+                    //replace token
                     free(envString1);
                     free(envString3);
                 }
@@ -254,6 +267,7 @@ int main()
                     
                     if(envString)
                     {
+                        //much easier, we just have home
                         free(tokens->items[i]);
                         tokens->items[i] = strdup(envString);
                     }       
@@ -271,13 +285,16 @@ int main()
             // current item is an internal command before this is called
             //tokens->items[i] = pathSearch(tokens->items[i]);
         }  
-        
+            
             printf("Show the token size here: %d\n", tokens->size);
             if(tokens->size > 0){
                 if(tokens->items[(tokens->size)-1][0] == '&'){
-                    tokens->items[(tokens->size)-1] = NULL;
-                    printf("Going to the background\n");
-                    bgProcessing(tokens, bg);
+                    if(intCommand == false)
+                    {
+                        tokens->items[(tokens->size)-1] = NULL;
+                        printf("Going to the background\n");
+                        bgProcessing(tokens, bg);
+                    }
                 }
                 else
                 { 
@@ -291,7 +308,14 @@ int main()
 
 //                free_tokens(tokens);    
             }
- 
+        
+        if(isCD == true && intCommand == true)
+        {
+            cdFunc(tokens);
+        }
+        //in order to process paths before cd, use this
+
+        isCD = false;//reset for next loop
         intCommand = false;
 
         free(input);

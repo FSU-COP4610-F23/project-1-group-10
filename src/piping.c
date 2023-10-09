@@ -92,7 +92,7 @@ void pipeFunc(char ***listOfList, int cmdCtr, bool bgp) //take in the list of cm
 
     if(bgp == true){
         for(int i = 0; i < cmdCtr; i++){
-            waitpid(pids[i], &status, WNOHANG); //waitpid for child process
+            waitpid(pids[i], &status, 0); //waitpid for child process
 //            if(i == (cmdCtr-1)){
 //                BG[jobNum].pid = pids[i];
 //            }

@@ -58,7 +58,7 @@ check if errors exist in commands, and run commands concurrently in the backgrou
 ## AFTER
 ### Part 1: Prompt
 - **Responsibilities**: [Print the user, machine, and path info from their envirnoment.]
-- **Assigned to**: Roderick Shaw
+- **Assigned to**: Roderick Shaw, Fernando Parra
 
 ### Part 2: Environment Variables
 - **Responsibilities**: [Parse all environment variables appropriately]
@@ -66,7 +66,7 @@ check if errors exist in commands, and run commands concurrently in the backgrou
 
 ### Part 3: Tilde Expansion
 - **Responsibilities**: [Parse ~ as a home environment variable]
-- **Assigned to**: Fernando Parra, Roderick Shaw
+- **Assigned to**: Fernando Parra
 
 ### Part 4: $PATH Search
 - **Responsibilities**: [Find proper paths for each command]
@@ -90,7 +90,7 @@ check if errors exist in commands, and run commands concurrently in the backgrou
 
 ### Part 9: Internal Command Execution
 - **Responsibilities**: [Implement 3 commands: exit, cd PATH, and jobs]
-- **Assigned to**: 
+- **Assigned to**: Fernando Parra
 
 ### Part 10: External Timeout Executable
 - **Responsibilities**: [Implement mytimeout command]
@@ -145,11 +145,11 @@ before.
 ## Bugs
 - **Bug 1**: Printing out the command line gives a segmentation fault.
 - **Bug 2**: Piping doesn't seem to be going into the background.
-- **Bug 3**: Visual prompt bug with cd. It works, but it doesn't reflect that in prompt.
-- **Bug 4**: Exit don't work
+- **Bug 3**: Exit don't work
 
 ## Extra Credit
 - **Extra Credit 1**: [Support unlimited number of pipes]
+- **Extra Credit 2**: [Shell-ception]
 
 ## Considerations
 [Tilde expansion, external command execution, and internal commands are 

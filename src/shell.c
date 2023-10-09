@@ -119,7 +119,7 @@ void jobsFunc(struct bgPid *bg, int size)
     }
     if(jobsExist == false)
     {
-        printf("\nNo active background processes.\n");
+        printf("No active background processes.\n");
     }
 }
 
@@ -188,15 +188,15 @@ int main()
 
     while(1)
     {
-        bool pipeExists = false; //if loop contains pipe
-        int pipeCounter = 0; 
+      //  bool pipeExists = false; //if loop contains pipe
+      //  int pipeCounter = 0; 
         //how many pipes does it contain
-        int commandCounter = 0; //how many commands
+      //  int commandCounter = 0; //how many commands
         pipeIndex = -1;
         prompt();
         
         input = get_input();
-        printf("The input is: %s\n", input);
+     //   printf("The input is: %s\n", input);
 
         checkBG(bg, 11);
 
@@ -286,13 +286,13 @@ int main()
             //tokens->items[i] = pathSearch(tokens->items[i]);
         }  
             
-            printf("Show the token size here: %d\n", tokens->size);
+         //   printf("Show the token size here: %d\n", tokens->size);
             if(tokens->size > 0){
                 if(tokens->items[(tokens->size)-1][0] == '&'){
                     if(intCommand == false)
                     {
                         tokens->items[(tokens->size)-1] = NULL;
-                        printf("Going to the background\n");
+          //              printf("Going to the background\n");
                         bgProcessing(tokens, bg);
                     }
                 }
@@ -303,8 +303,8 @@ int main()
                         extcmd(tokens);
                     }
                 }
-                for(int i = 0; i < tokens->size; i++)
-                    printf("token %d: (%s)\n", i, tokens->items[i]);
+        //        for(int i = 0; i < tokens->size; i++)
+          //          printf("token %d: (%s)\n", i, tokens->items[i]);
 
 //                free_tokens(tokens);    
             }

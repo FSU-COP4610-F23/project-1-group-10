@@ -53,7 +53,7 @@ char ***listList(tokenlist* itemlist, int pipeCounter)
         }    
     }
 
-    for(int i = 0; i < listListIdx; i++)
+ /*   for(int i = 0; i < listListIdx; i++)
     {
         printf("Command %d: \n", i+1);
         for(int j = 0; listOfToList[i][j] != NULL; j++)
@@ -61,7 +61,7 @@ char ***listList(tokenlist* itemlist, int pipeCounter)
             printf("\t%s\n",
             listOfToList[i][j]);
         }
-    }
+    }*/
 
     return listOfToList;
 }

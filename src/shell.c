@@ -119,7 +119,7 @@ void jobsFunc(struct bgPid *bg, int size)
     }
     if(jobsExist == false)
     {
-        printf("\nNo active background processes.\n");
+        printf("No active background processes.\n");
     }
 }
 

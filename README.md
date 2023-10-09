@@ -89,7 +89,7 @@ check if errors exist in commands, and run commands concurrently in the backgrou
 
 ### Part 9: Internal Command Execution
 - **Responsibilities**: [Implement 3 commands: exit, cd PATH, and jobs]
-- **Assigned to**: 
+- **Assigned to**: Fernando Parra
 
 ### Part 10: External Timeout Executable
 - **Responsibilities**: [Implement mytimeout command]
@@ -149,6 +149,7 @@ before.
 
 ## Extra Credit
 - **Extra Credit 1**: [Support unlimited number of pipes]
+- **Extra Credit 2**: [Shell-ception]
 
 ## Considerations
 [Tilde expansion, external command execution, and internal commands are 

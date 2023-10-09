@@ -145,7 +145,7 @@ before.
 ## Bugs
 - **Bug 1**: Printing out the command line gives a segmentation fault.
 - **Bug 2**: Piping doesn't seem to be going into the background.
-- **Bug 3**: Exit don't work
+- **Bug 3**: Exit doesn't always work (inconsistent)
 
 ## Extra Credit
 - **Extra Credit 1**: [Support unlimited number of pipes]

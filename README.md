@@ -57,7 +57,7 @@ check if errors exist in commands, and run commands concurrently in the backgrou
 ## AFTER
 ### Part 1: Prompt
 - **Responsibilities**: [Print the user, machine, and path info from their envirnoment.]
-- **Assigned to**: Roderick Shaw
+- **Assigned to**: Roderick Shaw, Fernando Parra
 
 ### Part 2: Environment Variables
 - **Responsibilities**: [Parse all environment variables appropriately]
@@ -65,7 +65,7 @@ check if errors exist in commands, and run commands concurrently in the backgrou
 
 ### Part 3: Tilde Expansion
 - **Responsibilities**: [Parse ~ as a home environment variable]
-- **Assigned to**: Fernando Parra, Roderick Shaw
+- **Assigned to**: Fernando Parra
 
 ### Part 4: $PATH Search
 - **Responsibilities**: [Find proper paths for each command]

@@ -188,15 +188,15 @@ int main()
 
     while(1)
     {
-        bool pipeExists = false; //if loop contains pipe
-        int pipeCounter = 0; 
+      //  bool pipeExists = false; //if loop contains pipe
+      //  int pipeCounter = 0; 
         //how many pipes does it contain
-        int commandCounter = 0; //how many commands
+      //  int commandCounter = 0; //how many commands
         pipeIndex = -1;
         prompt();
         
         input = get_input();
-        printf("The input is: %s\n", input);
+     //   printf("The input is: %s\n", input);
 
         checkBG(bg, 11);
 
@@ -286,7 +286,7 @@ int main()
             //tokens->items[i] = pathSearch(tokens->items[i]);
         }  
             
-            printf("Show the token size here: %d\n", tokens->size);
+         //   printf("Show the token size here: %d\n", tokens->size);
             if(tokens->size > 0){
                 if(tokens->items[(tokens->size)-1][0] == '&'){
                     if(intCommand == false)

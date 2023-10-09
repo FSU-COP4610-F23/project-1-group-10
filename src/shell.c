@@ -292,7 +292,7 @@ int main()
                     if(intCommand == false)
                     {
                         tokens->items[(tokens->size)-1] = NULL;
-                        printf("Going to the background\n");
+          //              printf("Going to the background\n");
                         bgProcessing(tokens, bg);
                     }
                 }
@@ -303,8 +303,8 @@ int main()
                         extcmd(tokens);
                     }
                 }
-                for(int i = 0; i < tokens->size; i++)
-                    printf("token %d: (%s)\n", i, tokens->items[i]);
+        //        for(int i = 0; i < tokens->size; i++)
+          //          printf("token %d: (%s)\n", i, tokens->items[i]);
 
 //                free_tokens(tokens);    
             }

@@ -8,7 +8,6 @@ EXECUTABLE2 := mytimeout
 
 SRCS := $(wildcard $(SRC)/*.c)
 TIMES := $(wildcard $(SRC)/$(TIME)/*.c)
-@echo "TIMES: $(TIMES)"
 OBJS := $(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(SRCS))
 OBJS2 := $(patsubst $(SRC)/$(TIME)/%.c,$(OBJ2)/%.o,$(TIMES))
 INCS := -Iinclude/
@@ -33,7 +32,6 @@ $(OBJ)/%.o: $(SRC)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ2)/%.o: $(SRC)/$(TIME)/%.c
-	@echo "Compiling $< to $@"
 	$(CC) $(CFLAGS) -c $< -o $@
 
 run: $(EXEC)

@@ -24,28 +24,29 @@ LDFLAGS :=
 all: $(DIRS) $(DIRS2) $(EXEC) $(EXEC2)
 
 $(EXEC): $(OBJS)
-        $(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(EXEC)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(EXEC)
 
 $(EXEC2): $(OBJS2)
-        $(CC) $(CFLAGS) $(LDFLAGS) $(OBJS2) -o $(EXEC2)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS2) -o $(EXEC2)
 
 $(OBJ)/%.o: $(SRC)/%.c
-        $(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ2)/%.o: $(SRC)/$(TIME)/%.c
-        @echo "Compiling $< to $@"
-        $(CC) $(CFLAGS) -c $< -o $@
+	@echo "Compiling $< to $@"
+	$(CC) $(CFLAGS) -c $< -o $@
 
 run: $(EXEC)
-        $(EXEC)
+	$(EXEC)
 
-clean:    
-        rm -f $(OBJS) $(OBJS2) $(EXEC) $(EXEC2)
+clean:
+	rm -f $(OBJS) $(OBJS2) $(EXEC) $(EXEC2)
 
 $(DIRS):
-        mkdir -p $@           
+	mkdir -p $@
 
-$(DIRS2):              
-        mkdir -p $@
+$(DIRS2):
+	mkdir -p $@
 
 .PHONY: run clean all
+

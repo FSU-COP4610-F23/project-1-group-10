@@ -201,25 +201,28 @@ int main()
         checkBG(bg, 11);
 
         tokens = get_tokens(input);
-
-        if(strcmp(tokens->items[0], "exit") == 0)
+        
+        if(tokens->size > 0)
         {
-            //do exit
-            intCommand = true;
-            exitFunc(bg, 11);
-        }
-        else if(strcmp(tokens->items[0], "cd") == 0)
-        {
-            //check for cd
-            intCommand = true;
-            isCD = true;
-            //cdFunc(tokens);
-        }
-        else if(strcmp(tokens->items[0], "jobs") == 0)
-        {
-            //check for jobs
-            intCommand = true;
-            jobsFunc(bg, 11);
+            if(strcmp(tokens->items[0], "exit") == 0)
+            {
+                //do exit
+                intCommand = true;
+                exitFunc(bg, 11);
+            }
+            else if(strcmp(tokens->items[0], "cd") == 0)
+            {
+                //check for cd
+                intCommand = true;
+                isCD = true;
+                //cdFunc(tokens);
+            }
+            else if(strcmp(tokens->items[0], "jobs") == 0)
+            {
+                //check for jobs
+                intCommand = true;
+                jobsFunc(bg, 11);
+            }
         }
         
        

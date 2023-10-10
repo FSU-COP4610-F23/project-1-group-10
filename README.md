@@ -108,7 +108,8 @@ shell/
 │ |── shell.c
 │ |── bgProcessor.c
 │ |── envirVar.c
-│ |── mytimeout.c
+│ |── mytimeout/
+| |  └── mytimeout.c
 │ |── ioRedirection.c
 │ |── lexer.c
 │ |── listOfCommands.c
@@ -131,11 +132,11 @@ shell/
 
 ### Compilation
 ```bash
-make
+make all
 ```
-This will build the executable alongside the makefile and other folders 
-in this directory. It will also create the bin and obj folders in the same
-directory.
+This will build both executables with the makefile and shoves the appropriate
+contents into the other folders in this directory. You must create the bin,
+obj, and obj2 folders in the same directory.
 ### Execution
 ```bash
 make run

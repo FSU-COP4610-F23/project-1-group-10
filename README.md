@@ -140,9 +140,11 @@ obj, and obj2 folders in the same directory.
 ### Execution
 ```bash
 make run
+./bin/shell
 ```
-This will run the program and start off with a slightly different prompt than
-before. 
+This will run the shell program and start off with a slightly different prompt than
+before. However, this will not create the mytimeout executable. Use make all and then
+bin/shell to get back into the shell executable.
 ## Bugs
 - **Bug 1**: Printing out commands in BGP isn't working properly.
 - **Bug 2**: Piping doesn't seem to be going into the background.

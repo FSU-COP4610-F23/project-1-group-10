@@ -82,6 +82,8 @@ void checkBG(struct bgPid *BG, int size){
         if((WIFEXITED(status) == true) && (BG[i].isValid == true)){
 //        printf("still works 3");
             printf("[%d] + done [look up above]\n", jobNum);
+            BG[i].isValid = false;
+
             /*for(int j = 0; j < (BG[jobNum].itemlist->size); j++)
                 if(BG[jobNum].itemlist->items[j] != NULL){
                     printf("%s ", BG[jobNum].itemlist->items[j]);

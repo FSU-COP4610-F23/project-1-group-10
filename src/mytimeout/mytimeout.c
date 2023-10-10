@@ -73,7 +73,7 @@ char* pathSearch(char* item)
             return item;
         // if the path given is not executable, print error message and return nothing
         else {
-            printf("Command [%s] not found\n", item); //changed some error handling
+            //printf("Command [%s] not found\n", item); //changed some error handling
             return item; //return error to token
         }
     }
@@ -132,7 +132,7 @@ char* pathSearch(char* item)
 
     }
     // print error message and return nothing if the command was not found in any $PATH directory
-    printf("Command [%s] not found\n", item); //changed error handling
+    //printf("Command [%s] not found\n", item); //changed error handling
     // free dynamically allocated memory
     free(path);
     free(proposedPath);    
